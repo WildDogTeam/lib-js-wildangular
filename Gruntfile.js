@@ -132,9 +132,9 @@ module.exports = function(grunt) {
   grunt.registerTask('update', ['shell:npm_install']);
 
   // Single run tests
- // grunt.registerTask('test', ['test:unit', 'test:e2e']);
+  grunt.registerTask('test', ['test:unit', 'test:e2e']);
 
-  grunt.registerTask('test', ['test:unit']);
+ // grunt.registerTask('test', ['test:unit']);
   grunt.registerTask('test:unit', ['karma:singlerun']);
   grunt.registerTask('test:e2e', ['concat', 'connect:testserver', 'protractor:singlerun']);
   grunt.registerTask('test:manual', ['karma:manual']);

@@ -1,12 +1,12 @@
 var protractor = require('protractor');
-var Firebase = require('firebase');
+var Wilddog = require('wilddog');
 
 describe('Priority App', function () {
   // Reference to the message repeater
   var messages = element.all(by.repeater('message in messages'));
 
-  // Reference to the Firebase which stores the data for this demo
-  var firebaseRef = new Firebase('https://angularfire.firebaseio-demo.com/priority');
+  // Reference to the Wilddog which stores the data for this demo
+  var wilddogRef = new Wilddog('https://angularfire.wilddogio-demo.com/priority');
 
   // Boolean used to load the page on the first test only
   var isPageLoaded = false;
@@ -21,10 +21,10 @@ describe('Priority App', function () {
     flow.execute(waitOne);
   }
 
-  function clearFirebaseRef() {
+  function clearWilddogRef() {
     var deferred = protractor.promise.defer();
 
-    firebaseRef.remove(function(err) {
+    wilddogRef.remove(function(err) {
       if (err) {
         deferred.reject(err);
       } else {
@@ -44,11 +44,11 @@ describe('Priority App', function () {
         // Get the random push ID where the data is being stored
         return $('#pushId').getText();
       }).then(function(pushId) {
-        // Update the Firebase ref to point to the random push ID
-        firebaseRef = firebaseRef.child(pushId);
+        // Update the Wilddog ref to point to the random push ID
+        wilddogRef = wilddogRef.child(pushId);
 
-        // Clear the Firebase ref
-        return clearFirebaseRef();
+        // Clear the Wilddog ref
+        return clearWilddogRef();
       }).then(done);
     } else {
       done();
@@ -57,7 +57,7 @@ describe('Priority App', function () {
 
 
   it('loads', function () {
-    expect(browser.getTitle()).toEqual('AngularFire Priority e2e Test');
+    expect(browser.getTitle()).toEqual('wild-angular Priority e2e Test');
   });
 
   it('starts with an empty list of messages', function () {
@@ -109,9 +109,9 @@ describe('Priority App', function () {
 
     function setPriority(start, pri) {
       var def = protractor.promise.defer();
-      firebaseRef.startAt(start).limitToFirst(1).once('child_added', function(snap) {
+      wilddogRef.startAt(start).limitToFirst(1).once('child_added', function(snap) {
         var data = snap.val();
-        //todo https://github.com/firebase/angularFire/issues/333
+        //todo https://github.com/wilddog/angularFire/issues/333
         //todo makeItChange just forces Angular to update the dom since it won't change
         //todo when a $ variable updates
         data.makeItChange = true;
