@@ -3,7 +3,7 @@ var Wilddog = require('wilddog');
 
 describe('Todo App', function () {
   // Reference to the Wilddog which stores the data for this demo
-  var wilddogRef = new Wilddog('https://angularfire.wilddogio-demo.com/todo');
+  var wilddogRef = new Wilddog('https://wild-angular.wilddogio.com/todo');
 
   // Boolean used to load the page on the first test only
   var isPageLoaded = false;

@@ -1,7 +1,7 @@
 var app = angular.module('chat', ['wilddog']);
 app.controller('ChatCtrl', function Chat($scope, $wilddogObject, $wilddogArray) {
   // Get a reference to the Wilddog
-  var rootRef = new Wilddog('https://angularfire.wilddogio-demo.com');
+  var rootRef = new Wilddog('https://wilddog-angular.wilddogio.com');
 
   // Store the data at a random push ID
   var chatRef = rootRef.child('chat').push();

@@ -3,7 +3,7 @@ var Wilddog = require('wilddog');
 
 describe('Chat App', function () {
   // Reference to the Wilddog which stores the data for this demo
-  var wilddogRef = new Wilddog('https://angularfire.wilddogio-demo.com/chat');
+  var wilddogRef = new Wilddog('https://wild-angular.wilddogio.com/chat');
 
   // Boolean used to load the page on the first test only
   var isPageLoaded = false;

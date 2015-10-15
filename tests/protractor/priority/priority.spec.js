@@ -6,7 +6,7 @@ describe('Priority App', function () {
   var messages = element.all(by.repeater('message in messages'));
 
   // Reference to the Wilddog which stores the data for this demo
-  var wilddogRef = new Wilddog('https://angularfire.wilddogio-demo.com/priority');
+  var wilddogRef = new Wilddog('https://wild-angular.wilddogio.com/priority');
 
   // Boolean used to load the page on the first test only
   var isPageLoaded = false;
