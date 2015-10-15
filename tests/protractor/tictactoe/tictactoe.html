@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="tictactoe">
+  <head>
+    <title>wild-angular TicTacToe e2e Test</title>
+
+    <!-- Angular -->
+    <script src="../../../node_modules/angular/angular.min.js"></script>
+
+    <!-- Wilddog -->
+    <script src="../../../node_modules/wilddog/lib/wilddog-web.js"></script>
+
+    <!-- wild-angular -->
+    <script src="../../../dist/angularfire.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="tictactoe.css">
+  </head>
+
+  <body ng-controller="TicTacToeCtrl">
+    <!-- Wilddog push ID where data is stored (used by the test spec to know where data is stored) -->
+    <p id="pushId"></p>
+
+    <!-- Reset Wilddog button -->
+    <button id="resetRef" ng-click="resetRef()">Reset Ref</button>
+
+    <!-- Destroy button -->
+    <button id="destroyButton" ng-click="destroy()">Destroy wild-angular bindings</button>
+
+    <!-- Name input -->
+    <div id="board">
+      <div class="row" ng-repeat="(rowId, row) in board track by $index">
+        <div class="cell" ng-repeat="(columnId, cell) in row track by $index" ng-click="makeMove(rowId, columnId)">
+          {{ cell }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="tictactoe.js" defer></script>
+  </body>
+</html>
