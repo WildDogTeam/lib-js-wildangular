@@ -1,7 +1,7 @@
 var app = angular.module('todo', ['wilddog']);
 app. controller('TodoCtrl', function Todo($scope, $wilddogArray) {
   // Get a reference to the Wilddog
-  var todosRef = new Wilddog('https://angularfire.wilddogio-demo.com/todo').push();
+  var todosRef = new Wilddog('https://wild-angular.wilddogio.com/todo').push();
 
   // Put the random push ID into the DOM so that the test suite can grab it
   document.getElementById('pushId').innerHTML = todosRef.key();

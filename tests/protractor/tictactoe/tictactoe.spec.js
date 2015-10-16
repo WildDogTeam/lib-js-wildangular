@@ -15,7 +15,7 @@ describe('TicTacToe App', function () {
   var flow = protractor.promise.controlFlow();
 
   function waitOne() {
-    return protractor.promise.delayed(500);
+    return protractor.promise.delayed(2000);
   }
 
   function sleep() {

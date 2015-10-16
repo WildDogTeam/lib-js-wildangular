@@ -1,7 +1,7 @@
 var app = angular.module('tictactoe', ['wilddog']);
 app.controller('TicTacToeCtrl', function Chat($scope, $wilddogObject) {
   // Get a reference to the Wilddog
-  var boardRef = new Wilddog('https://angularfire.wilddogio-demo.com/tictactoe');
+  var boardRef = new Wilddog('https://wild-angular.wilddogio.com/tictactoe');
 
   // If the query string contains a push ID, use that as the child for data storage;
   // otherwise, generate a new random push ID

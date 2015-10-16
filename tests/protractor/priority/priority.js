@@ -1,7 +1,7 @@
 var app = angular.module('priority', ['wilddog']);
 app.controller('PriorityCtrl', function Chat($scope, $wilddogArray, $wilddogObject) {
   // Get a reference to the Wilddog
-  var messagesRef = new Wilddog('https://angularfire.wilddogio-demo.com/priority').push();
+  var messagesRef = new Wilddog('https://wild-angular.wilddogio.com/priority').push();
 
   // Put the random push ID into the DOM so that the test suite can grab it
   document.getElementById('pushId').innerHTML = messagesRef.key();

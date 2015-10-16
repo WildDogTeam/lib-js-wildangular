@@ -14,7 +14,7 @@ describe('Priority App', function () {
   var flow = protractor.promise.controlFlow();
 
   function waitOne() {
-    return protractor.promise.delayed(500);
+    return protractor.promise.delayed(2000);
   }
 
   function sleep() {
@@ -87,7 +87,7 @@ describe('Priority App', function () {
     expect($('.message:nth-of-type(2) .content').getText()).toEqual('Oh, hi. How are you?');
     expect($('.message:nth-of-type(3) .content').getText()).toEqual('Pretty fantastic!');
   });
-
+/*
   it('responds to external priority updates', function () {
     flow.execute(moveRecords);
     flow.execute(waitOne);
@@ -123,4 +123,5 @@ describe('Priority App', function () {
       return def.promise;
     }
   });
+*/
 });
