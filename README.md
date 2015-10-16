@@ -2,7 +2,7 @@
 # wild-angular
 
 [![Build Status](https://travis-ci.org/WildDogTeam/wild-angular.svg?branch=master)](https://travis-ci.org/WildDogTeam/wild-angular)
-[![Coverage Status](https://coveralls.io/repos/WilddogTeam/wild-angualr/badge.svg?branch=master&service=github)](https://coveralls.io/github/wilddogTeam/wild-angular?branch=master)
+[![Coverage Status](https://coveralls.io/repos/WildDogTeam/wild-angualr/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/wild-angular?branch=master)
 [![Version](https://badge.fury.io/gh/WildDogTeam%2Fwild-angular.svg)](http://badge.fury.io/gh/WildDogTeam%2Fwild-angular)
 
 wild-angular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=wild-angular) 是支持数据存储，读写，身份认证的后端服务。
