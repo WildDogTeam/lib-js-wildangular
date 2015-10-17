@@ -1,12 +1,12 @@
 
-# wild-angular
+# Wild-Angular
 
 
 [![Build Status](https://travis-ci.org/WildDogTeam/wild-angular.svg?branch=master)](https://travis-ci.org/WildDogTeam/wild-angular)
 [![Coverage Status](https://coveralls.io/repos/WildDogTeam/wild-angular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/wild-angular?branch=master)
-[![Version](https://badge.fury.io/gh/WildDogTeam%2Fwild-angular.svg)](http://badge.fury.io/gh/WildDogTeam%2Fwild-angular)
+[![Version](https://badge.fury.io/gh/WildDogTeam%2Fwild-angular.svg)](http://badge.fury.io/gh/WildDogTeam%2FWild-Angular)
 
-wild-angular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=wild-angular) 是支持数据存储，读写，身份认证的后端服务。
+Wild-Angular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=wild-angular) 是支持数据存储，读写，身份认证的后端服务。
 
 wild-angualr 是对Wilddog客户端的补充，提供三个angular service
   * `$wilddogObject` - 同步Object
@@ -28,7 +28,7 @@ wild-angualr 是对Wilddog客户端的补充，提供三个angular service
 <!-- Wilddog -->
 <script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
 
-<!-- wild-angular -->
+<!-- Wild-Angular -->
 <script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
 ```
 使用npm:
@@ -42,9 +42,9 @@ $ npm install wild-angular --save
 $ bower install wild-angular --save
 ```
 
-#### 注入wild-angular服务
+#### 注入Wild-Angular服务
 
-在我们通过依赖注入使用wild-angular之前，我们需要注册一个`wilddog`模块
+在我们通过依赖注入使用Wild-Angular之前，我们需要注册一个`wilddog`模块
 
 ```
 var app = angular.module("sampleApp",["wilddog"]);
@@ -71,7 +71,7 @@ app.controller("SampleCtrl",function($scope,$wilddogObject){
 
 #### 三向数据对象绑定
 
-Angular被大家熟知的是它的双向数据绑定特性。Wilddog是一个轻量的实时数据库。wild-angular可以将两者完美的结合在一起，DOM，javascript和Wilddog数据库三者之间实时同步。DOM发生改变，相应的model发生改变，与这个model绑定的Wilddog数据节点也发生相应的改变。
+Angular被大家熟知的是它的双向数据绑定特性。Wilddog是一个轻量的实时数据库。Wild-Angular可以将两者完美的结合在一起，DOM，javascript和Wilddog数据库三者之间实时同步。DOM发生改变，相应的model发生改变，与这个model绑定的Wilddog数据节点也发生相应的改变。
 
 如何设置三向数据绑定？我们使用前面介绍的`$wilddogObject`service来创建同步对象，然后调用`$bindTo()`来绑定到`$scope`的一个变量上。
 
@@ -202,12 +202,12 @@ index.html
 
 
 ```
-#### 登录认证
+#### 终端用户认证
 
-Wilddog 提供了一列登录认真的方式，支持匿名，email，微博，微信，QQ登录
+Wilddog 提供了一列登录认证的方式，支持匿名，email，微博，微信，QQ登录
 
 
-wild-angular提供了一个service `$wilddogAuth`,封装了Wilddog提供的登录认证的方式。能够注入到任何 controller，service和factory。
+Wild-Angular提供了一个service `$wilddogAuth`,封装了Wilddog提供的登录认证的方式。能够注入到任何 controller，service和factory。
 
 ```
 app.controller("SampleCtrl", function($scope, $wilddogAuth) {
@@ -225,7 +225,6 @@ app.controller("SampleCtrl", function($scope, $wilddogAuth) {
 
 ## Guide
 
-
 TBD
 
 ## 文档
@@ -239,7 +238,7 @@ TBD
 TBD
 
 ```bash
-$ git clone https://github.com/WildDogTeam/wild-angular.git
+$ git clone https://github.com/WildDogTeam/Wild-Angular.git
 $ cd wild-angular            
 $ npm install -g grunt-cli  
 $ npm install               
