@@ -219,7 +219,7 @@ var app = angular.module("sampleApp", ["wilddog"]);
 app.factory("Profile", ["$wilddogObject",
   function($wilddogObject) {
     return function(username) {
-      var ref = new Wilddog("https://<APPID>.wilddogio.com/);
+      var ref = new Wilddog("https://<APPID>.wilddogio.com/");
       var profileRef = ref.child(username);
       // 返回一个同步的对象
       return $wilddogObject(profileRef);
