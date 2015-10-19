@@ -128,8 +128,8 @@ ref.on("value", function(snapshot) {
 {
   "profiles": {
      "physicsmarie": {
-        name: "Marie Curie",
-        dob: "November 7, 1867"
+        "name": "Marie Curie",
+        "dob": "November 7, 1867"
      }
   }
 }
@@ -169,12 +169,18 @@ app.controller("ProfileCtrl", ["$wilddogObject",
 
 #### API 概览
 
+
+
 |$save() | 把本地数据同步到服务端 |
 |$remove() |将此`wilddogObje`置空，删除所有的key ,并且把这个对象的value设置成null，这个对象仍在存在|
 |$loaded() |后返回一个promise，当初始数据被下载的时候执行|
 |$bindTo() |创建一个三向数据绑定|
 
+
+
 #### 元数据
+
+
 
 |$id |这条记录的key|
 |$priority|这条数据的优先级|
@@ -182,6 +188,7 @@ app.controller("ProfileCtrl", ["$wilddogObject",
 
 
 #### 完整例子
+
 
 index.html
 ```html
@@ -248,17 +255,104 @@ app.controller("ProfileCtrl", ["$scope", "Profile",
 
 #### 三向数据绑定
 
+从服务端同步变化的特性已经非常赞了，但Wild-Angular提供更酷的特性--三向数据绑定。
 
-TBD
+只需要在同步对象上简单的调用 `$bindTo`，DOM中产生的任何变化都会推送给Angular，然后自动同步到Wilddog数据库。另一方面，Wilddog数据库中的任何变化都会推送给Angular，并展示在DOM中。
+
+我们来看看如何用三向数据绑定改变上面的例子，把`$sava()` 去掉。
+
+
+index.html
+```html
+<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
+<script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+<script src="app.js"></script>
+
+
+<div ng-app="sampleApp" ng-controller="ProfileCtrl">
+  <!-- $id 是包含对象的key,在个例子中，应该是 "physicsmarie" -->
+  <h3>Edit: {{ profile.$id }}</h3>
+
+  <!-- 我们能够像修改其他JS对象一样修改$wilddogObject -->
+    <label>Name:</label>
+    <input type="text" ng-model="profile.name">
+
+    <label>Email:</label>
+    <input type="text" ng-model="profile.email">
+
+</div>
 
 
 
+```
 
+app.js
 
+```js
+
+var app = angular.module("sampleApp", ["wilddog"]);
+
+// factory 创建一个可服用$wilddogObject单例。
+app.factory("Profile", ["$wilddogObject",
+  function($wilddogObject) {
+    return function(username) {
+      var ref = new Wilddog("https://<APPID>.wilddogio.com/");
+      var profileRef = ref.child(username);
+      // 返回一个同步的对象
+      return $wilddogObject(profileRef);
+    }
+  }
+]);
+
+app.controller("ProfileCtrl", ["$scope", "Profile",
+  function($scope, Profile){
+    Profile("physicsmarie").$bindTo($scope,"profile");
+  }
+]);
+
+```
+在这个例子中，我们只需要使用`$bindTo`自动将wilddog数据库和 `$scope.profile`，我们不再需要 `ng-submit`来调用`$save()`，Wild-Angular来做剩下的所有事情。
+
+> **维持三向数据绑定简洁**
+> 因为三向数据绑定非常简单，在深度嵌套的数据结构中使用要非常小心。因为性能的原因，在实际中，数据在不同客户端的改变并不是一齐进行的。不要使用`$bindTo`同步list
+
+#### 处理基本数据类型
+
+考虑下面的数据结构：
+
+```js
+{
+  "foo": "bar"
+}
+
+```
+如果你尝试将`foo/`同步到`wilddogObject`,一个特殊的键 `$value`将被创建，用来储存基本数据类型。这个键只有在当前节点没有子节点的情况下才存在。如果一个路径不存在，`$value`将被设置为null。
+
+```js
+var ref = new Wilddog("https://<APPID>.wilddogio.com/foo");
+  var obj = new $wilddogObject(ref);
+  obj.$loaded().then(function() {
+    console.log(obj.$value); // "bar"
+  });
+  // change the value at path foo/ to "baz"
+  obj.$value = "baz";
+  obj.$save();
+  // delete the value and see what is returned
+  obj.$remove().then(function() {
+  console.log(obj.$value); // null!
+});
+
+```
+
+查看 `$wilddogObject`的API来了解更多细节。然而并不是所有的数据都可以完美的同步到 `$wildObject`中。如果你需要同步一个列表，这时你需要使用`$wilddogArray`,下节讨论。
+ 
 
 ## 同步数组
 
 TBD
+
+
 
 ## 登录认证
 
