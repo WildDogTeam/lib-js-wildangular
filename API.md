@@ -54,7 +54,7 @@ app.controller("MyCtrl", ["$scope", "$wilddogObject",
 
 如果一个值在数据库里是一个基本类型 ( boolean , string , 或 number ) ，那么它将会被存储到 `$value` 下面，在更改 `$value` 的值之后再执行 `$save()` 方法也会直接更新服务端的数据。
 
-需要注意的是：不管任何时候，只有有其他数据存在，那么此条信息都会被忽略。如果我们需要把一个对象更改为基本类型的数据，我们需要先删除其他的数据，然后再将此数据添加到需要更改的数据下面。还有更简单的做法：
+需要注意的是：不管任何时候，只要有其他数据存在，那么此条信息都会被忽略。如果我们需要把一个对象更改为基本类型的数据，我们需要先删除其他的数据，然后再将此数据添加到需要更改的数据下面。还有更简单的做法：
 
 ```js
 var obj = $wilddogObject(ref); // 从服务端获取到数据
@@ -189,7 +189,7 @@ var unwatch = obj.$watch(function() {
   console.log("data changed!");
 });
 
-// 在不需要的时候，我们可以调用 unwatch 方法来挺尸对数据的监听
+// 在不需要的时候，我们可以调用 unwatch 方法来停止对数据的监听
 unwatch();
 ```
 
@@ -215,13 +215,13 @@ app.controller("MyCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
     var list = $wilddogArray(new Firebase(URL));
 
-    // add an item
+    // 增加一个节点
     list.$add({ foo: "bar" }).then(...);
 
-    // remove an item
+    // 删除一个节点
     list.$remove(2).then(...);
 
-    // make the list available in the DOM
+    // 将数组的数据填充进 DOM 结构中
     $scope.list = list;
   }
 ]);
@@ -248,7 +248,7 @@ app.controller("MyCtrl", ["$scope", "$wilddogArray",
     var list = $wilddogArray(query);
   }
 ]);
-
+```
 <strong>注意：</strong>虽然数组元素自身不应被修改，但是它可以改变数组内的特定元素然后将这些改变同步到远程数据库：
 
 JavaScript：
@@ -299,8 +299,9 @@ list.$remove(item).then(function(ref) {
 
 返回一个 `promise` 对象，在数据完成服务端存储后返回更新节点的 `Wilddog` 引用。
 
-```
+```js
 $scope.list = $wilddogArray(ref);
+
 <li ng-repeat="item in list">
   <input type="text" ng-model="item.title" ng-change="list.$save(item)" />
 </li>
