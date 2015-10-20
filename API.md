@@ -12,7 +12,7 @@
 
 此服务会自动同步远端 `Wilddog` 的数据库变化，但是不会自动将本地的数据更改同步到远端数据库，所有的本地数据变化都需要手动更新本地的对象然后调用此对象的 `$save()` 方法来同步数据到数据库，或者可以直接使用 `$bindTo()` 方法(后面会有介绍)。
 
-```
+```js
 app.controller("MyCtrl", ["$scope", "$wilddogObject",
   function($scope, $wilddogObject) {
      var ref = new Wilddog(URL);
@@ -36,7 +36,6 @@ app.controller("MyCtrl", ["$scope", "$wilddogObject",
      obj.$bindTo($scope, "data");
   }
 ]);
-
 ```
 
 #### $id
@@ -57,10 +56,9 @@ app.controller("MyCtrl", ["$scope", "$wilddogObject",
 
 需要注意的是：不管任何时候，只有有其他数据存在，那么此条信息都会被忽略。如果我们需要把一个对象更改为基本类型的数据，我们需要先删除其他的数据，然后再将此数据添加到需要更改的数据下面。还有更简单的做法：
 
-```
+```js
 var obj = $wilddogObject(ref); // 从服务端获取到数据
 $wilddogUtils.updateRec(obj, newPrimitiveValue); // updateRec 将会清除其他数据
-
 ```
 
 <strong>注意：</strong> Angular 的 `$watch()` 方法会忽略带有 `$` 前缀的键，而在 `$bindTo()` 方法中，如果修改带有 `$` 前缀的数据，会使本次的修改与服务端的数据绑定失效，除非有不带有 `$` 前缀的字段被提交才会更新，最好的方法是在修改带有 `$` 符号的变量时避免使用 `$bindTo()` 方法，直接使用 `$save()` 方法。
@@ -70,14 +68,13 @@ $wilddogUtils.updateRec(obj, newPrimitiveValue); // updateRec 将会清除其他
 
 删除当前对象的本地和数据库的所有数据，返回一个 `promise` 对象,包含被删除的内容。
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.$remove().then(function(ref) {
   // 本地和数据库的数据已经被删除
 }, function(error) {
   console.log("Error:", error);
 });
-
 ```
 
 
@@ -85,7 +82,7 @@ obj.$remove().then(function(ref) {
 
 当数据有更改时，调用 `$save()` 方法可以提交这些更改到数据库，返回一个 `promise` 对象，成功之后返回数据为此节点的 `Wilddog` 引用。
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.foo = "bar";
 obj.$save().then(function(ref) {
@@ -93,7 +90,6 @@ obj.$save().then(function(ref) {
 }, function(error) {
   console.log("Error:", error);
 });
-
 ```
 
 
@@ -101,7 +97,7 @@ obj.$save().then(function(ref) {
 
 当数据从数据库下载完成时触发此方法，返回一个 `promise` 对象，成功之后返回数据为 `$wilddogObject` 本身。
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.$loaded()
   .then(function(data) {
@@ -110,12 +106,11 @@ obj.$loaded()
   .catch(function(error) {
     console.error("Error:", error);
   });
-
 ```
 
 在 `$loaded()` 中， `resolve()` / `reject()` 可以简化为：
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.$loaded(
   function(data) {
@@ -125,7 +120,6 @@ obj.$loaded(
     console.error("Error:", error);
   }
 );
-
 ```
 
 
@@ -133,10 +127,9 @@ obj.$loaded(
 
 此方法返回生成当前对象的 `Wilddog` 引用。
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.$ref() === ref; // true
-
 ```
 
 
@@ -146,7 +139,7 @@ obj.$ref() === ref; // true
 
 JavaScript：
 
-```
+```js
 var ref = new Wilddog(URL); // 假设这里的数据是 { foo: "bar" }
 var obj = $wilddogObject(ref);
 
@@ -155,13 +148,11 @@ obj.$bindTo($scope, "data").then(function() {
   $scope.data.foo = "baz";  // 这条数据将被提交到数据库
   ref.set({ foo: "baz" });  // 将会更新数据库以及 $scope.data
 });
-
 ```
 HTML:
 
 ```html
 <input type="text" ng-model="data.foo" />
-
 ```
 现在我们可以直接绑定在 HTML 中的对象，然后存储到数据库，安全与 `Wilddog` 规则表达式可以用来验证数据在服务端是否格式正确。
  
@@ -169,24 +160,22 @@ HTML:
 
 <strong>注意：</strong> Angular 不会向任何 `$watch()` 报告带有 `$` 前缀的变量，简单的做法是将需要绑定 `$watch()` 但不用保存到服务器的数据用 `_` 前缀起名。
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.$bindTo($scope, "widget").then(function() {
   $scope.widget.$priority = 99;
   $scope.widget._updated = true;
 })
-
 ```
 
 如果一个 `scope` 的 `$destroy()` 方法被调用（当一个 `controller` 被销毁的时候会触发），这个对象也会自动解除与此 `scope` 的数据绑定，也可以通过 `unbind()` 方法来解除绑定，这个方法在 `promise` 对象的回调函数中。
 
-```
+```js
 var obj = $wilddogObject(ref);
 obj.$bindTo($scope, "data").then(function(unbind) {
   // unbind this later
   //unbind();
 });
-
 ```
 
 
@@ -194,7 +183,7 @@ obj.$bindTo($scope, "data").then(function(unbind) {
 
 注册一个事件监听器，当数据有任何变化时都会收到通知，返回值是一个注销函数，如果调用此函数，将会停止此次监听。
 
-```
+```js
 var obj = $firebaseObject(ref);
 var unwatch = obj.$watch(function() {
   console.log("data changed!");
@@ -202,7 +191,6 @@ var unwatch = obj.$watch(function() {
 
 // 在不需要的时候，我们可以调用 unwatch 方法来挺尸对数据的监听
 unwatch();
-
 ```
 
 
@@ -222,7 +210,7 @@ unwatch();
 
 
 JavaScript：
- ```
+ ```js
 app.controller("MyCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
     var list = $wilddogArray(new Firebase(URL));
@@ -237,10 +225,9 @@ app.controller("MyCtrl", ["$scope", "$wilddogArray",
     $scope.list = list;
   }
 ]);
-
 ```
 HTML：
-```
+```html
 <li ng-repeat="item in list | filter:name">{{ item | json }}</li>
 
 ```
@@ -250,10 +237,9 @@ HTML：
 HTML：
 ```html
 <li ng-repeat="item in list | filter:name">{{ item | json }}</li>
-
 ```
 JavaScript：
-```
+```js
 app.controller("MyCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
     var messagesRef = new Wilddog(URL).child("messages");
@@ -266,18 +252,16 @@ app.controller("MyCtrl", ["$scope", "$wilddogArray",
 <strong>注意：</strong>虽然数组元素自身不应被修改，但是它可以改变数组内的特定元素然后将这些改变同步到远程数据库：
 
 JavaScript：
-```
+```js
 var list = $wilddogArray(new Wilddog(URL));
 list[2].foo = "bar";
 list.$save(2);
-
 ```
 HTML：
 ```html
 <li ng-repeat="item in list">
   <input ng-model="item.foo" ng-change="list.$save(item)" />
 </li>
-
 ```
 
 
@@ -287,14 +271,13 @@ HTML：
 
 这个方法返回一个 `promise` 对象，完成之后返回新增的数据，
 
-```
+```js
 var list = $wilddogArray(ref);
 list.$add({ foo: "bar" }).then(function(ref) {
   var id = ref.key();
   console.log("added record with id " + id);
   list.$indexFor(id); // 返回 id 在 wilddogArray 对象中的位置
 });
-
 ```
 
 
@@ -302,13 +285,12 @@ list.$add({ foo: "bar" }).then(function(ref) {
 
 从数据库和本地 Array 对象中删除一个节点，返回一个 `promise` 对象，在服务端完成删除操作后返回被删除的节点对象，此方法的参数可以是节点在数组中的索引或者节点的 `Wilddog` 引用。
 
-```
+```js
 var list = $wilddogArray(ref);
 var item = list[2];
 list.$remove(item).then(function(ref) {
   ref.key() === item.$id; // true
 });
-
 ```
 
 #### $save(recordOrIndex)
@@ -328,7 +310,6 @@ list[2].foo = "bar";
 list.$save(2).then(function(ref) {
   ref.key() === list[2].$id; // true
 });
-
 ```
 
 
@@ -336,10 +317,9 @@ list.$save(2).then(function(ref) {
 
 返回数组中带有 key 值的节点，如果没有找到 key 对应的节点则返回 null ，该方法利用 `$indexFor(key)` 来查找相应的节点。
 
-```
+```js
 var list = $wilddogArray(ref);
 var rec = list.$getRecord("foo"); // record with $id === "foo" or null
-
 ```
 
 
@@ -347,12 +327,11 @@ var rec = list.$getRecord("foo"); // record with $id === "foo" or null
 
 返回参数中的节点在数组中的 key 值，接受参数可以是节点在数组中的索引或者节点的引用。
 
-```
+```js
 // 假设节点有 "alpha", "bravo" 和 "charlie"
 var list = $wilddogArray(ref);
 list.$keyAt(1); // bravo
 list.$keyAt( list[1] ); // bravo
-
 ```
 
 
@@ -360,13 +339,12 @@ list.$keyAt( list[1] ); // bravo
 
 是 `$keyAt()` 的逆操作，返回参数中节点在数组中的索引，如果数组中不存在此节点，返回 -1。
 
-```
+```js
 // 假设节点有 "alpha", "bravo" 和  "charlie"
 var list = $wilddogArray(ref);
 list.$indexFor("alpha"); // 0
 list.$indexFor("bravo"); // 1
 list.$indexFor("zulu"); // -1
-
 ```
 
 
@@ -374,7 +352,7 @@ list.$indexFor("zulu"); // -1
 
 返回一个 `promise` 对象，当数据下载完成时返回 $wilddogArray 对象。
 
-```
+```js
 var list = $wilddogArray(ref);
 list.$loaded()
   .then(function(x) {
@@ -383,12 +361,11 @@ list.$loaded()
   .catch(function(error) {
     console.log("Error:", error);
   });
-
 ```
 
  resolve 和 reject 方法可以简化为：
 
-```
+```js
 var list = $wilddogArray(ref);
 list.$loaded(
   function(x) {
@@ -396,7 +373,6 @@ list.$loaded(
   }, function(error) {
     console.error("Error:", error);
   });
-
 ```
 
 
@@ -404,10 +380,9 @@ list.$loaded(
 
 此方法返回生成当前对象的 `Wilddog` 引用。
 
-```
+```js
 var list = $wilddogArray(ref);
 sync === list.$ref(); // true
-
 ```
 
 
@@ -419,7 +394,7 @@ sync === list.$ref(); // true
 * `key` : 发生变化的数据的 id
 * `prevChild` : 如果是 `child_added` 或 `child_moved` 事件，包含上一个节点的名称，如果此节点是集合中的第一个节点就是null
 
-```
+```js
 var list = $wilddogArray(ref);
 
 list.$watch(function(event) {
@@ -431,12 +406,11 @@ list.$remove("foo");
 
 // logs { event: "child_added", key: "<new _id>", prevId: "<prev_id>" }
 list.$add({ hello: "world" });
-
 ```
 
 一个常见的用例是定制一个同步的数组的排序。由于每次从数据库添加或更新数据，数据的排列顺序都会有改变，我们需要在每个事件之后重新进行排列，我们不必担心因为过度的重新排列会让 `Angular` 的编译进程变慢或者过度创建 DOM 更新，因为事件已经分批处理成为单一的 `$apply` 事件（在 `$digest` 进行脏检查之前我们先把它们收集成起来并分批绑定事件）：
 
-```
+```js
 var list = $wilddogArray(ref);
 
 // 为获取到的数据排序
@@ -449,7 +423,6 @@ list.$watch(function() { list.sort(compare); });
 function compare(a, b) {
   return a.lastName.localeCompare(b.lastName);
 }
-
 ```
 
 
