@@ -768,7 +768,9 @@ app.factory("MessageList", function(MessageFactory) {
 
 WildAngular包括用户认证和管理的 $wilddogAuth 服务支持。
 
+```js
 var app = angular.module("app", ["wilddog"]);
+```
 
 
 ### 身份验证服务构造器
@@ -842,7 +844,7 @@ $scope.authObj.$authWithOAuthPopup("weibo").then(function(authData) {
 Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证 : https://z.wilddog.com/web/guide/7。
 
 
-## $authWithOAuthRedirect(provider[, options])
+#### $authWithOAuthRedirect(provider[, options])
 
 使用基于重定向的 OAuth 流来验证客户端。此方法包含两个参数：OAuth 提供用来验证的唯一字符串（如："weibo"），并包含可选的客户端参数，如配置会话持久性的对象。
 
