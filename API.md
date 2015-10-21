@@ -537,6 +537,7 @@ list.$loaded().then(function() {
 
 为了说明，我们创建一个用于创建控件实例的服务，并转换日期：
 
+```js
 // 在我们的控件服务中返回一个对象
 app.factory("Widget", function($wilddogUtils) {
   function Widget(snapshot) {
@@ -592,6 +593,7 @@ app.factory("WidgetFactory", function($wilddogArray, Widget) {
     }
   });
 });
+```
 
 
 #### 通过一个类来扩展
@@ -697,6 +699,7 @@ app.factory("User", function(UserFactory) {
 
 同样，我们可以通过创建一个 Message 对象来扩展 $wilddogArray 对象：
 
+```js
 app.factory("Message", function($wilddogArray) {
   function Message(snap) {
     // 存储用户ID，WildAngular可以识别记录在这里，我们需要把它存储在一个自定义的位置，所以需要重写 $$getKey
@@ -720,6 +723,7 @@ app.factory("Message", function($wilddogArray) {
 
   return Message;
 });
+```
 
 然后，我们可以用它来扩展 `$wilddogArray` 服务：
 
@@ -798,7 +802,7 @@ $scope.authObj.$authWithCustomToken("<CUSTOM_AUTH_TOKEN>").then(function(authDat
 
 该方法返回一个 `promise` 对象，如果成功数据会包含身份验证 token 的 payload 的对象，如果失败，数据包含一个 Error 对象。
 
-如果想了解更多关于生成自定义身份验证 token 的细节，请阅读我们的 [终端用户认证]: https://z.wilddog.com/web/guide/7 "auth"。
+如果想了解更多关于生成自定义身份验证 token 的细节，请阅读我们的 终端用户认证 : https://z.wilddog.com/web/guide/7。
 
 
 #### $authWithPassword(credentials[, options])
@@ -818,7 +822,7 @@ $scope.authObj.$authWithPassword({
 
 该方法返回一个 `promise` 对象，成功之后数据会包含有关登录用户的验证数据的对象，如果失败，包含一个 Error 对象。
 
-如果想了解更多关于 email/password 验证的细节，请阅读我们的 [终端用户认证]: https://z.wilddog.com/web/guide/7 "auth"。
+如果想了解更多关于 email/password 验证的细节，请阅读我们的终端用户认证 : https://z.wilddog.com/web/guide/7 。
 
 
 #### $authWithOAuthPopup(provider[, options])
@@ -835,7 +839,7 @@ $scope.authObj.$authWithOAuthPopup("weibo").then(function(authData) {
 
 该方法返回一个 `promise` 对象，成功之后数据会包含有关登录用户的身份验证数据的对象，如果失败，包含一个 Error 对象。
 
-Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的 [终端用户认证]: https://z.wilddog.com/web/guide/7 "auth"。
+Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证 : https://z.wilddog.com/web/guide/7。
 
 
 ## $authWithOAuthRedirect(provider[, options])
@@ -852,7 +856,7 @@ $scope.authObj.$authWithOAuthRedirect("weibo").then(function(authData) {
 
 改方法返回一个 `promise` 对象，成功之后数据包含有关登录用户的身份验证数据对象，如果不成功，包含一个 Error 对象。
 
-Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的 [终端用户认证]: https://z.wilddog.com/web/guide/7 "auth"。
+Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证: https://z.wilddog.com/web/guide/7。
 
 
 #### $authWithOAuthToken(provider, credentials[, options])
@@ -868,7 +872,7 @@ $scope.authObj.$authWithOAuthToken("weibo", "<ACCESS_TOKEN>").then(function(auth
  ```
 该方法返回一个 `promise` 对象，成功之后数据包含有关登录用户的身份验证数据的对象，失败则返回包含 Error 信息的对象。
 
-Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的 [终端用户认证]: https://z.wilddog.com/web/guide/7 "auth"。
+Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证: https://z.wilddog.com/web/guide/7。
 
 
 #### $getAuth()
