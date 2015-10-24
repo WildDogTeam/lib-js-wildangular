@@ -223,13 +223,9 @@ app.controller("SampleCtrl", function($scope, $wilddogAuth) {
 
 ```
 
-## Guide
+## API
 
-TBD
-
-## 文档
-
-TBD
+[API文档](https://github.com/WildDogTeam/wild-angular/blob/master/API.md)
 
 
 
