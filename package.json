@@ -3,13 +3,13 @@
   "description": "The officially supported AngularJS binding for Wilddog",
   "version": "0.0.0",
   "author": "Wilddog <support@wilddog.com> (https://www.wilddog.com/)",
-  "homepage": "https://github.com/WilddogTeam/wild-angular",
+  "homepage": "https://github.com/WilddogTeam/lib-js-wildangular",
   "repository": {
     "type": "git",
-    "url": "https://github.com/WilddogTeam/wild-angular.git"
+    "url": "https://github.com/WilddogTeam/lib-js-wildangular.git"
   },
   "bugs": {
-    "url": "https://github.com/WilddogTeam/wild-angular/issues"
+    "url": "https://github.com/WilddogTeam/lib-js-wildangular/issues"
   },
   "license": "MIT",
   "keywords": [

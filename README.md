@@ -1,14 +1,14 @@
 
-# Wild-Angular
+# lib-js-wildangular
 
 
-[![Build Status](https://travis-ci.org/WildDogTeam/wild-angular.svg?branch=master)](https://travis-ci.org/WildDogTeam/wild-angular)
-[![Coverage Status](https://coveralls.io/repos/WildDogTeam/wild-angular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/wild-angular?branch=master)
-[![Version](https://badge.fury.io/gh/WildDogTeam%2Fwild-angular.svg)](http://badge.fury.io/gh/WildDogTeam%2FWild-Angular)
+[![Build Status](https://travis-ci.org/WildDogTeam/lib-js-wildangular.svg?branch=master)](https://travis-ci.org/WildDogTeam/lib-js-wildangular)
+[![Coverage Status](https://coveralls.io/repos/WildDogTeam/lib-js-wildangular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/lib-js-wildangular?branch=master)
+[![Version](https://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular.svg)](http://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular)
 
-Wild-Angular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=wild-angular) 是支持数据存储，读写，身份认证的后端服务。
+lib-js-wildangular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=lib-js-wildangular) 是支持数据存储，读写，身份认证的后端服务。
 
-wild-angualr 是对Wilddog客户端的补充，提供三个angular service
+lib-js-wildangular 是对Wilddog客户端的补充，提供三个angular service
   * `$wilddogObject` - 同步Object
   * `$wilddogArray` - 同步Array
   * `$wilddogAuth` - 认证
@@ -19,7 +19,7 @@ wild-angualr 是对Wilddog客户端的补充，提供三个angular service
 #### 引入依赖
 
 
-在html中使用wild-angular:
+在html中使用lib-js-wildangular:
 
 ```html
 <!-- AngularJS -->
@@ -42,9 +42,9 @@ $ npm install wild-angular --save
 $ bower install wild-angular --save
 ```
 
-#### 注入Wild-Angular服务
+#### 注入lib-js-wildangular服务
 
-在我们通过依赖注入使用Wild-Angular之前，我们需要注册一个`wilddog`模块
+在我们通过依赖注入使用lib-js-wildangular之前，我们需要注册一个`wilddog`模块
 
 ```
 var app = angular.module("sampleApp",["wilddog"]);
@@ -71,7 +71,7 @@ app.controller("SampleCtrl",function($scope,$wilddogObject){
 
 #### 三向数据对象绑定
 
-Angular被大家熟知的是它的双向数据绑定特性。Wilddog是一个轻量的实时数据库。Wild-Angular可以将两者完美的结合在一起，DOM，javascript和Wilddog数据库三者之间实时同步。DOM发生改变，相应的model发生改变，与这个model绑定的Wilddog数据节点也发生相应的改变。
+Angular被大家熟知的是它的双向数据绑定特性。Wilddog是一个轻量的实时数据库。lib-js-wildangular可以将两者完美的结合在一起，DOM，javascript和Wilddog数据库三者之间实时同步。DOM发生改变，相应的model发生改变，与这个model绑定的Wilddog数据节点也发生相应的改变。
 
 如何设置三向数据绑定？我们使用前面介绍的`$wilddogObject`service来创建同步对象，然后调用`$bindTo()`来绑定到`$scope`的一个变量上。
 
@@ -207,7 +207,7 @@ index.html
 Wilddog 提供了一列登录认证的方式，支持匿名，email，微博，微信，QQ登录
 
 
-Wild-Angular提供了一个service `$wilddogAuth`,封装了Wilddog提供的登录认证的方式。能够注入到任何 controller，service和factory。
+lib-js-wildangular提供了一个service `$wilddogAuth`,封装了Wilddog提供的登录认证的方式。能够注入到任何 controller，service和factory。
 
 ```
 app.controller("SampleCtrl", function($scope, $wilddogAuth) {
