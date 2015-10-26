@@ -2,9 +2,9 @@
 # lib-js-wildangular
 
 
-[![Build Status](https://travis-ci.org/WildDogTeam/lib-js-wildangular.svg?branch=master)](https://travis-ci.org/WildDogTeam/lib-js-wildangular)
-[![Coverage Status](https://coveralls.io/repos/WildDogTeam/lib-js-wildangular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/lib-js-wildangular?branch=master)
-[![Version](https://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular.svg)](http://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular)
+[![Build Status](https://travis-ci.org/WildDogTeam/wild-angular.svg?branch=master)](https://travis-ci.org/WildDogTeam/lib-js-wildangular)
+[![Coverage Status](https://coveralls.io/repos/WildDogTeam/wild-angular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/lib-js-wildangular?branch=master)
+[![Version](https://badge.fury.io/gh/WildDogTeam%2Fwild-angular.svg)](http://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular)
 
 lib-js-wildangular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=lib-js-wildangular) 是支持数据存储，读写，身份认证的后端服务。
 
@@ -225,7 +225,11 @@ app.controller("SampleCtrl", function($scope, $wilddogAuth) {
 
 ## API
 
-[API文档](https://github.com/WildDogTeam/wild-angular/blob/master/API.md)
+[API文档](https://github.com/WildDogTeam/lib-js-wildangular/blob/master/API.md)
+
+## Guide
+
+[开发向导](https://github.com/WildDogTeam/lib-js-wildangular/blob/master/GUIDE.md)
 
 
 
@@ -234,8 +238,8 @@ app.controller("SampleCtrl", function($scope, $wilddogAuth) {
 TBD
 
 ```bash
-$ git clone https://github.com/WildDogTeam/Wild-Angular.git
-$ cd wild-angular            
+$ git clone https://github.com/WildDogTeam/lib-js-wildangular.git
+$ cd lib-js-wildangular           
 $ npm install -g grunt-cli  
 $ npm install               
 $ grunt install             

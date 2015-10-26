@@ -360,7 +360,7 @@ var ref = new Wilddog("https://<APPID>.wilddogio.com/foo");
 // 定义我们的app，注入依赖
 var app = angular.module("sampleApp", ["wilddog"]);
 // 在 controller 中注入 $wilddogArray 服务
-app.controller("ProfileCtrl", ["$scope", $wilddogArray",
+app.controller("ProfileCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
     var messagesRef = new Wilddog("https://<YOUR-WILDDOG-APP>.wilddogio.com/messages");
     // 从一个 Wilddog 引用下载数据（伪只读）到本地数组
@@ -497,7 +497,7 @@ HTML :
   </div>
   <div ng-hide="authData">
     <p>欢迎，请登录</p>
-    <button ng-click="auth.$authWithOAuthPopup('facebook')">微信账号登录</button>
+    <button ng-click="auth.$authWithOAuthPopup('weixin')">微信账号登录</button>
   </div>
 </div>
 ```

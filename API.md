@@ -2,14 +2,6 @@
 # API文档
 
 
-[![Build Status](https://travis-ci.org/WildDogTeam/lib-js-wildangular.svg?branch=master)](https://travis-ci.org/WildDogTeam/lib-js-wildangular)
-[![Coverage Status](https://coveralls.io/repos/WildDogTeam/lib-js-wildangular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/lib-js-wildangular?branch=master)
-[![Version](https://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular.svg)](http://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular)
-
-
-
-
-
 ## $wilddogObject
 
 
