@@ -1,7 +1,7 @@
 {
   "name": "wild-angular",
   "description": "The officially supported AngularJS binding for Wilddog",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Wilddog <support@wilddog.com> (https://www.wilddog.com/)",
   "homepage": "https://github.com/WilddogTeam/lib-js-wildangular",
   "repository": {
