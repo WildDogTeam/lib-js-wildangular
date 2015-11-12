@@ -5,10 +5,10 @@
   "authors": [
     "Wilddog(https://www.wilddog.com/)"
   ],
-  "homepage": "https://github.com/WilddogTeam/wild-angular",
+  "homepage": "https://github.com/WilddogTeam/lib-js-wildangular",
   "repository": {
     "type": "git",
-    "url": "https://github.com/WilddogTeam/wild-angular.git"
+    "url": "https://github.com/WilddogTeam/lib-js-wildangular.git"
   },
   "license": "MIT",
   "keywords": [
