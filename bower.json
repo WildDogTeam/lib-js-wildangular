@@ -1,7 +1,7 @@
 {
   "name": "wild-angular",
   "description": "AnguarJS 支持的官方版本",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     "Wilddog(https://www.wilddog.com/)"
   ],
@@ -26,6 +26,6 @@
   ],
   "dependencies": {
     "angular": "1.3.x || 1.4.x",
-    "wilddog": "0.4.x"
+    "wilddog": "^0.4.8"
   }
 }
