@@ -705,4 +705,4 @@ app.controller("SampleCtrl", ["$scope", "$timeout", "$window", function($scope, 
 
 * $timeout中的事件 ：将所有的服务器通知放在 $timeout 中，以确保 Angular 编译器通知更改。
 
-* 使用 $window.Firebase：这使得测试单元和端对端测试被客户端 Wilddog 监听并用模拟函数代替，也避免了全局对象污染警告。
+* 使用 $window.Wilddog：这使得测试单元和端对端测试被客户端 Wilddog 监听并用模拟函数代替，也避免了全局对象污染警告。
