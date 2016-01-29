@@ -229,7 +229,6 @@ app.controller("SampleCtrl", function($scope, $wilddogAuth) {
 
 ## Guide
 
-[开发向导](https://github.com/WildDogTeam/lib-js-wildangular/blob/master/GUIDE.md)
 
 
 

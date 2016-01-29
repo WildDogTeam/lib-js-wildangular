@@ -7,7 +7,7 @@
 
 * 轻量快速的数据同步：Wilddog可以作为你全部的后端服务，快速同步多客户端。
 * 无后端服务：只需要开发客户端，配合[Wilddog灵活的安全规则](https://z.wilddog.com/rule/quickstart)，你可以进行无后端开发。
-* 内置登录认证：Wilddog提供了一套[终端用户认证](https://z.wilddog.com/web/guide/7)和用户管理机制，可以方便的使用多种登录认证方法。
+* 内置登录认证：Wilddog提供了一套[终端用户认证](https://z.wilddog.com/web/auth)和用户管理机制，可以方便的使用多种登录认证方法。
 * 数据绑定：Wild-Angular就像胶水一样，连接Angular的双向数据绑定和Wilddog的数据同步平台
 
 
@@ -18,7 +18,7 @@
 lib-js-wildangular是WildDogTeam维护的开源软件，提供DOM,JavaScript和Wilddog数据库的三向数据绑定。
 
 
-如果你不熟悉Wilddog，我们建议你先阅读 [Wilddog web 开发向导](https://z.wilddog.com/web/guide/1)，请在使用lib-js-wildangular之前理解Wilddog如何存储数据，如何读数据和写数据。lib-js-wildangular的作用是补充Wilddog 客户端，而不是取代它。
+如果你不熟悉Wilddog，我们建议你先阅读 [Wilddog web 读写数据](https://z.wilddog.com/web/crud)，请在使用lib-js-wildangular之前理解Wilddog如何存储数据，如何读数据和写数据。lib-js-wildangular的作用是补充Wilddog 客户端，而不是取代它。
 
 
 lib-js-wildangular并不适合同步层级很深的数据，在Angular中使用Wilddog并非只有 lib-js-wildangular 一种方式。
