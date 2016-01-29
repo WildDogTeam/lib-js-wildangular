@@ -1,14 +1,14 @@
 {
   "name": "wild-angular",
   "description": "AnguarJS 支持的官方版本",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "authors": [
     "Wilddog(https://www.wilddog.com/)"
   ],
-  "homepage": "https://github.com/WilddogTeam/wild-angular",
+  "homepage": "https://github.com/WilddogTeam/lib-js-wildangular",
   "repository": {
     "type": "git",
-    "url": "https://github.com/WilddogTeam/wild-angular.git"
+    "url": "https://github.com/WilddogTeam/lib-js-wildangular.git"
   },
   "license": "MIT",
   "keywords": [
@@ -26,6 +26,6 @@
   ],
   "dependencies": {
     "angular": "1.3.x || 1.4.x",
-    "wilddog": "0.4.x"
+    "wilddog": "^0.4.8"
   }
 }

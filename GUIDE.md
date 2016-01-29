@@ -107,10 +107,10 @@ $scope.data.$loaded()
 ```js
 var ref = new Wilddog("https://<APPID>.wilddogio.com");
 ref.on("value", function(snapshot) {
-  // 数据不会立刻展现，因为我们只是在内存里做了修改，而没有通知Angular
+  // 数据不会立刻展现，因为我们只是在内存里做了修改，而没有通知Angular（没有触发Angular的脏检查）
   // $scope.data = snapshot.val();
 
-  // 修复真个问题，当数据发生变化时我们用 $scope.$apply() 通知Angular
+  // 修复这个问题，当数据发生变化时我们用 $scope.$apply() 通知Angular
   $scope.$apply(function() {
     $scope.data = snapshot.val();
   });
@@ -705,4 +705,8 @@ app.controller("SampleCtrl", ["$scope", "$timeout", "$window", function($scope, 
 
 * $timeout中的事件 ：将所有的服务器通知放在 $timeout 中，以确保 Angular 编译器通知更改。
 
+<<<<<<< HEAD
 * 使用 $window.Firebase：这使得测试单元和端对端测试被客户端 Wilddog 监听并用模拟函数代替，也避免了全局对象污染警告。
+=======
+* 使用 $window.Wilddog：这使得测试单元和端对端测试被客户端 Wilddog 监听并用模拟函数代替，也避免了全局对象污染警告。
+>>>>>>> github/master
