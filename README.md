@@ -152,7 +152,7 @@ index.html
 上面的例子只能满足只读的需求，Wilddog数据库修改，页面会保持同步，而如果页面中的数据发生了修改，将不会通知到Wilddog数据库。
 
 
-那么，wild-angualr提供了一组方法来完成同步数组的需求:`$add()`,`$(save)`,`$(remove)`
+那么，wild-angular提供了一组方法来完成同步数组的需求:`$add()`,`$(save)`,`$(remove)`
 
 app.js
 
