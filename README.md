@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/WildDogTeam/wild-angular/badge.svg?branch=master&service=github)](https://coveralls.io/github/WildDogTeam/wild-angular?branch=master)
 [![Version](https://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular.svg)](http://badge.fury.io/gh/WildDogTeam%2Flib-js-wildangular)
 
-wild-angular 是Wilddog对angularJS的官方支持库。[Wilddog](http://www.wilddog.com/?utm_medium=web&utm_source=lib-js-wildangular) 是支持数据存储，读写，身份认证的后端服务。
+wild-angular 是Wilddog对angularJS的官方支持库。[野狗实时后端云](http://www.wilddog.com/?utm_medium=web&utm_source=lib-js-wildangular) 是支持数据存储，读写，身份认证的后端服务。
 
 wild-angular 是对Wilddog客户端的补充，提供三个angular service
   * `$wilddogObject` - 同步Object
