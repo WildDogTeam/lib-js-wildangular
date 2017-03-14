@@ -13,25 +13,29 @@
 ```js
 app.controller("MyCtrl", ["$scope", "$wilddogObject",
   function($scope, $wilddogObject) {
-     var ref = new Wilddog(URL);
+    var config = {
+        syncURL: "https://<appId>.wilddogio.com",
+    };
+    wilddog.initializeApp(config);
+    var ref = wilddog.sync().ref();
 
-     var obj = $wilddogObject(ref);
+    var obj = $wilddogObject(ref);
 
-     // 使用 $loaded() 方法的异步操作来对获取的数据进行操作
-     obj.$loaded().then(function() {
-        console.log("loaded record:", obj.$id, obj.someOtherKeyInData);
+    // 使用 $loaded() 方法的异步操作来对获取的数据进行操作
+    obj.$loaded().then(function() {
+      console.log("loaded record:", obj.$id, obj.someOtherKeyInData);
 
-       // 使用 angular 的 forEach() 方法来对获取到的数据进行遍历
-       angular.forEach(obj, function(value, key) {
-          console.log(key, value);
-       });
+     // 使用 angular 的 forEach() 方法来对获取到的数据进行遍历
+     angular.forEach(obj, function(value, key) {
+        console.log(key, value);
      });
+    });
 
-     // 将数据注册到 $scope 对象中，这样我们就能在 DOM 中利用此数据了
-     $scope.data = obj;
+    // 将数据注册到 $scope 对象中，这样我们就能在 DOM 中利用此数据了
+    $scope.data = obj;
 
-     // 三向数据绑定，将获取到的远端数据与本地的 $scope 进行绑定
-     obj.$bindTo($scope, "data");
+    // 三向数据绑定，将获取到的远端数据与本地的 $scope 进行绑定
+    obj.$bindTo($scope, "data");
   }
 ]);
 ```
@@ -138,7 +142,6 @@ obj.$ref() === ref; // true
 JavaScript：
 
 ```js
-var ref = new Wilddog(URL); // 假设这里的数据是 { foo: "bar" }
 var obj = $wilddogObject(ref);
 
 obj.$bindTo($scope, "data").then(function() {
@@ -153,7 +156,7 @@ HTML:
 <input type="text" ng-model="data.foo" />
 ```
 现在我们可以直接绑定在 HTML 中的对象，然后存储到数据库，安全与 `Wilddog` 规则表达式可以用来验证数据在服务端是否格式正确。
- 
+
 在一次绑定中只能绑定一个 `scope` 变量，如果第二次绑定相同的 `$wilddogObject` 实例，`promise` 对象会执行 `reject()` 方法，绑定也会失败。
 
 <strong>注意：</strong> Angular 不会向任何 `$watch()` 报告带有 `$` 前缀的变量，简单的做法是将需要绑定 `$watch()` 但不用保存到服务器的数据用 `_` 前缀起名。
@@ -215,7 +218,13 @@ JavaScript：
  ```js
 app.controller("MyCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
-    var list = $wilddogArray(new wilddog(URL));
+    var config = {
+        syncURL: "https://<appId>.wilddogio.com",
+    };
+    wilddog.initializeApp(config);
+    var ref = wilddog.sync().ref();
+
+    var list = $wilddogArray(ref);
 
     // 增加一个节点
     list.$add({ foo: "bar" }).then(...);
@@ -244,7 +253,12 @@ JavaScript：
 ```js
 app.controller("MyCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
-    var messagesRef = new Wilddog(URL).child("messages");
+    var config = {
+        syncURL: "https://<appId>.wilddogio.com",
+    };
+    wilddog.initializeApp(config);
+    var ref = wilddog.sync().ref('messages');
+
     var query = messagesRef.orderByChild("timestamp").limitToLast(10);
 
     var list = $wilddogArray(query);
@@ -255,7 +269,7 @@ app.controller("MyCtrl", ["$scope", "$wilddogArray",
 
 JavaScript：
 ```js
-var list = $wilddogArray(new Wilddog(URL));
+var list = $wilddogArray(ref);
 list[2].foo = "bar";
 list.$save(2);
 ```
@@ -772,22 +786,26 @@ $wilddogAuth服务需要 Wilddog 引用作为其唯一参数，需要注意的�
 ```js
 app.controller("MyAuthCtrl", ["$scope", "$wilddogAuth",
   function($scope, $wilddogAuth) {
-    var ref = new Wilddog("https://<YOUR-WILDDOG-APP>.wilddogio.com");
-    $scope.authObj = $wilddogAuth(ref);
+    var config = {
+        authDomain: "<appId>.wilddog.com",
+    };
+    wilddog.initializeApp(config);
+    var auth = wilddog.auth();
+    $scope.authObj = $wilddogAuth(auth);
   }
 ]);
 ```
 
-由 $wilddogAuth 返回的认证对象包含几个方法，用来验证用户、应对变化的验证状态、验证状态和管理账户是 email/password 的用户。
+由 $wilddogAuth 返回的认证对象包含几个方法，用来验证用户、应对变化的验证状态、验证状态和管理账户是 email/password 或 phone/password 的用户。
 
 
 
-#### $authWithCustomToken(authToken[, options])
+#### $signInWithCustomToken(authToken)
 
-验证使用自定义身份验证 token 的客户端。该函数有两个参数：一个认证 token 或一个 Wilddog Secret 和包含可选的客户端参数，如配置会话持久性的对象。
+验证使用自定义身份验证 token 的客户端。该函数有两个参数：一个认证 token 或一个 Wilddog Secret 。
 
 ```js
-$scope.authObj.$authWithCustomToken("<CUSTOM_AUTH_TOKEN>").then(function(authData) {
+$scope.authObj.$signInWithCustomToken("<CUSTOM_AUTH_TOKEN>").then(function(authData) {
   console.log("Logged in as:", authData.uid);
 }).catch(function(error) {
   console.error("Authentication failed:", error);
@@ -798,16 +816,26 @@ $scope.authObj.$authWithCustomToken("<CUSTOM_AUTH_TOKEN>").then(function(authDat
 
 如果想了解更多关于生成自定义身份验证 token 的细节，请阅读我们的 终端用户认证 : https://z.wilddog.com/web/auth。
 
+#### $signInAnonymously(authToken)
 
-#### $authWithPassword(credentials[, options])
-
-验证使用 email/pasword 的客户端。这个函数包含两个参数：包含用户账户的电子邮箱地址和密码属性，并包含可选的客户端参数，比如配置会话持久性的对象。
+匿名登录方式。
 
 ```js
-$scope.authObj.$authWithPassword({
-  email: "my@email.com",
-  password: "mypassword"
-}).then(function(authData) {
+$scope.authObj.$signInAnonymously().then(function(authData) {
+  console.log("Logged in as:", authData.uid);
+}).catch(function(error) {
+  console.error("Authentication failed:", error);
+});
+```
+
+该方法返回一个 `promise` 对象，如果成功数据会包含身份验证 token 的 payload 的对象，如果失败，数据包含一个 Error 对象。
+
+#### $signInWithEmailAndPassword(email, password)
+
+验证使用 email/pasword 的客户端。包含两个参数：包含用户账户的电子邮箱地址和密码属性。
+
+```js
+$scope.authObj.$signInWithEmailAndPassword("my@email.com","mypassword").then(function(authData) {
   console.log("Logged in as:", authData.uid);
 }).catch(function(error) {
   console.error("Authentication failed:", error);
@@ -818,13 +846,31 @@ $scope.authObj.$authWithPassword({
 
 如果想了解更多关于 email/password 验证的细节，请阅读我们的终端用户认证 : https://z.wilddog.com/web/auth 。
 
+#### $signInWithPhoneAndPassword(phone, password)
 
-#### $authWithOAuthPopup(provider[, options])
-
-使用一个弹出层来验证客户端。此方法包含两个参数：OAuth 提供用来验证的唯一字符串（如："weibo"），并包含可选的客户端参数，如配置会话持久性的对象。
+验证使用 phone/pasword 的客户端。包含两个参数：包含用户账户的手机号和密码属性。
 
 ```js
-$scope.authObj.$authWithOAuthPopup("weibo").then(function(authData) {
+$scope.authObj.$signInWithPhoneAndPassword("13288888888","mypassword").then(function(authData) {
+  console.log("Logged in as:", authData.uid);
+}).catch(function(error) {
+  console.error("Authentication failed:", error);
+});
+```
+
+该方法返回一个 `promise` 对象，成功之后数据会包含有关登录用户的验证数据的对象，如果失败，包含一个 Error 对象。
+
+如果想了解更多关于 phone/password 验证的细节，请阅读我们的终端用户认证 : https://z.wilddog.com/web/auth 。
+
+
+
+#### $signInWithPopup(provider)
+
+使用一个弹出层来验证客户端。
+
+```js
+var provider = new wilddog.auth.WeixinAuthProvider();
+$scope.authObj.$authWithOAuthPopup(provider).then(function(authData) {
   console.log("Logged in as:", authData.uid);
 }).catch(function(error) {
   console.error("Authentication failed:", error);
@@ -836,12 +882,13 @@ $scope.authObj.$authWithOAuthPopup("weibo").then(function(authData) {
 Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证 : https://z.wilddog.com/web/auth。
 
 
-#### $authWithOAuthRedirect(provider[, options])
+#### $signInWithRedirect(provider)
 
-使用基于重定向的 OAuth 流来验证客户端。此方法包含两个参数：OAuth 提供用来验证的唯一字符串（如："weibo"），并包含可选的客户端参数，如配置会话持久性的对象。
+使用基于重定向的 OAuth 流来验证客户端。
 
 ```js
-$scope.authObj.$authWithOAuthRedirect("weibo").then(function(authData) {
+var provider = new wilddog.auth.WeixinAuthProvider();
+$scope.authObj.$authWithOAuthRedirect(provider).then(function(authData) {
   console.log("Logged in as:", authData.uid);
 }).catch(function(error) {
   console.error("Authentication failed:", error);
@@ -852,13 +899,13 @@ $scope.authObj.$authWithOAuthRedirect("weibo").then(function(authData) {
 
 Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证: https://z.wilddog.com/web/auth。
 
+#### $signInWithCredential(credential)
 
-#### $authWithOAuthToken(provider, credentials[, options])
-
-验证使用 OAuth 访问 token 或凭证的客户端，此方法包含三个参数：OAuth 提供用来验证的唯一字符串（如："weibo"），一个字符串，如 OAuth2.0 的访问 token，或者一个 key/value 对象，如如一组 OAuth1.0 的凭据，菜以及包含可选的客户端参数，如配置会话持久性的对象。
+使用第三方认证方式登录（e.g. 新浪微博，qq，weixin 授权后使用它们的 Access Token 和 openId 在野狗服务器上生成用户）
 
  ```js
-$scope.authObj.$authWithOAuthToken("weibo", "<ACCESS_TOKEN>").then(function(authData) {
+var credential = wilddog.WeixinAuthProvider.credential(<ACCESS_TOKEN>);
+$scope.authObj.$signInWithCredential(credential).then(function(authData) {
   console.log("Logged in as:", authData.uid);
 }).catch(function(error) {
   console.error("Authentication failed:", error);
@@ -869,12 +916,12 @@ $scope.authObj.$authWithOAuthToken("weibo", "<ACCESS_TOKEN>").then(function(auth
 Wilddog 目前支持微信、微博和 QQ 的验证，如果想了解更多关于终端用户认证的细节，请阅读我们的终端用户认证: https://z.wilddog.com/web/auth。
 
 
-#### $getAuth()
+#### $getUser()
 
 同步检索该客户端当前的验证状态。如果用户通过验证，返回含有 uid（唯一用户ID）、提供商（字符串）、auth（认证 token 的 payload），还有过期时间（使用 unix时间戳表示）等，返回值取决于用来验证的提供商，如果不通过，返回null。
 
 ```js
-var authData = $scope.authObj.$getAuth();
+var authData = $scope.authObj.$getUser();
 
 if (authData) {
   console.log("Logged in as:", authData.uid);
@@ -884,12 +931,12 @@ if (authData) {
 ```
 
 
-#### $onAuth(callback[, context])
+#### $onAuthStateChanged(callback[, context])
 
 监听客户端的用户登录状态变化，当登录状态发生改变就会触发回调函数。如果通过身份验证，回调函数的参数会是一个包含 uid（唯一用户ID）字段、提供商（字符串）、auth（身份验证 token 的 payload）以及到期时间（用 unix时间戳表示）等，返回值取决于用来验证的提供商，如果不通过，回调函数参数为空。
 
 ```js
-$scope.authObj.$onAuth(function(authData) {
+$scope.authObj.$onAuthStateChanged(function(authData) {
   if (authData) {
     console.log("Logged in as:", authData.uid);
   } else {
@@ -902,60 +949,59 @@ $scope.authObj.$onAuth(function(authData) {
 这个方法还会返回一个用来注销登录的函数，如果回调函数未注册，那么任何的用户认证状态的改变都不会触发回调。
 
 
-#### $unauth()
+#### $signOut()
 
-注销客户端与 Wilddog 数据库的连接，这个方法没有任何参数和返回值，当注销事件触发时， `$onAuth` 的回调函数也将会被触发。
+注销客户端与 Wilddog 数据库的连接，这个方法没有任何参数和返回值，当注销事件触发时， `$onAuthStateChanged` 的回调函数也将会被触发。
 
 ```html
 <span ng-show="authData">
-  {{ authData.name }} | <a href="#" ng-click="authObj.$unauth()">Logout</a>
+  {{ authData.name }} | <a href="#" ng-click="authObj.$signOut()">Logout</a>
 </span>
 ```
 
-#### $waitForAuth()
+#### $waitForSignIn()
 
 当满足当前认证状态时，返回一个 `promise` 对象，这个方法一般用于 Angular routers 的 resolve() 方法。
 
 
-#### $requireAuth()
+#### $requireUser()
 
 如果用户已经通过身份验证，它会在满足当前认证状态时返回一个 `promise` 对象，这个方法是为了在使用 Abgular routers 的 resolve() 时，不让未登录的用户看见只有登录用户才能看见的页面。
 
 
-#### $createUser(credentials)
+#### $createUserWithPhoneAndPassword(phone, password)
+
+使用 phone/password 组合创建一个新用户，返回一个 `promise` 对象，完成后数据包含了新建用户的用户信息的一个对象，目前，此对象只包含所创建用户的 uid。
+
+```js
+$scope.authObj.$createUserWithPhoneAndPassword("13288888888", "mypassword").then(function(userData) {
+  console.log("User " + userData.uid + " created successfully!");
+})
+```
+
+需要注意的是，该方法创建用户后自动登录。
+
+
+#### $createUserWithEmailAndPassword(email, password)
 
 使用 email/password 组合创建一个新用户，返回一个 `promise` 对象，完成后数据包含了新建用户的用户信息的一个对象，目前，此对象只包含所创建用户的 uid。
 
 ```js
-$scope.authObj.$createUser({
-  email: "my@email.com",
-  password: "mypassword"
-}).then(function(userData) {
+$scope.authObj.$createUserWithEmailAndPassword("my@email.com", "mypassword").then(function(userData) {
   console.log("User " + userData.uid + " created successfully!");
-
-  return $scope.authObj.$authWithPassword({
-    email: "my@email.com",
-    password: "mypassword"
-  });
-}).then(function(authData) {
-  console.log("Logged in as:", authData.uid);
-}).catch(function(error) {
-  console.error("Error: ", error);
-});
+})
 ```
 
-需要注意的是，该方法只用于创建用户。如果想为新创建的用户登录，需要等到 promise 对象操作完成之后再调用 `$authWithPassword()` 方法。
+需要注意的是，该方法创建用户后自动登录。
 
+#### $updateProfile(profile)
 
-#### $changeEmail(credentials)
-
-改变使用 email/password 组合登录的现有用户的 email。该方法返回一个 `promise` 对象，当数据库的 email 被改变后执行后续操作。
+改变现有用户的 profile 。该方法返回一个 `promise` 对象，当数据库的 profile 被改变后执行后续操作。
 
 ```js
-$scope.authObj.$changeEmail({
-  oldEmail: "my@email.com",
-  newEmail: "other@email.com",
-  password: "mypassword"
+$scope.authObj.$updateProfile({
+  'photoURL': photoUrl,
+  'displayName': displayName,
 }).then(function() {
   console.log("Email changed successfully!");
 }).catch(function(error) {
@@ -963,16 +1009,48 @@ $scope.authObj.$changeEmail({
 });
 ```
 
+#### $updateEmail(email)
 
-#### $removeUser(credentials)
-
-删除一个使用 email/password 登录的用户，返回一个 `promise` 对象，当数据库中此用户被删除之后执行后续操作。
+改变现有用户的 email。该方法返回一个 `promise` 对象，当数据库的 email 被改变后执行后续操作。
 
 ```js
-$scope.authObj.$removeUser({
-  email: "my@email.com",
-  password: "mypassword"
-}).then(function() {
+$scope.authObj.$updateEmail("my@email.com").then(function() {
+  console.log("Email changed successfully!");
+}).catch(function(error) {
+  console.error("Error: ", error);
+});
+```
+
+#### $updatePhone(phone)
+
+改变现有用户的 phone 。该方法返回一个 `promise` 对象，当数据库的 phone 被改变后执行后续操作。
+
+```js
+$scope.authObj.$updatePhone("13288888888").then(function() {
+  console.log("Email changed successfully!");
+}).catch(function(error) {
+  console.error("Error: ", error);
+});
+```
+
+#### $updatePassword(password)
+
+改变现有用户的 password 。该方法返回一个 `promise` 对象，当数据库的 password 被改变后执行后续操作。
+
+```js
+$scope.authObj.$updatePassword("newpassword").then(function() {
+  console.log("Email changed successfully!");
+}).catch(function(error) {
+  console.error("Error: ", error);
+});
+```
+
+#### $deleteUser(credentials)
+
+删除当前用户，返回一个 `promise` 对象，当数据库中此用户被删除之后执行后续操作。
+
+```js
+$scope.authObj.$deleteUser().then(function() {
   console.log("User removed successfully!");
 }).catch(function(error) {
   console.error("Error: ", error);
@@ -982,33 +1060,10 @@ $scope.authObj.$removeUser({
 <strong>注意：</strong>删除用户会使此用户从客户端下线，所以会触发已经注册的所有 onAuth() 的回调函数。
 
 
-#### $resetPassword(credentials)
+#### $sendPasswordResetEmail(email)
 
-发送密码重置的邮件到账户所有者，邮件包含用于验证和更改用户密码的 token ，返回一个 `promise` 对象，当电子邮件通知成功发出后执行后续操作。
+发送密码重置的邮件到账户所有者，返回一个 `promise` 对象，当电子邮件通知成功发出后执行后续操作。
 
+#### $sendPasswordResetPhone(phone)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+发送密码重置的邮件到账户所有者，返回一个 `promise` 对象，当电子邮件通知成功发出后执行后续操作。

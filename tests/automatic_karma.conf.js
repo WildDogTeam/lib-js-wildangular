@@ -31,7 +31,7 @@ module.exports = function(config) {
     files: [
       '../node_modules/angular/angular.js',
       '../node_modules/angular-mocks/angular-mocks.js',
-      '../node_modules/mockwilddog/browser/mockwilddog.js',
+      '../node_modules/wilddog/lib/wilddog-web.js',
       'lib/**/*.js',
       '../src/module.js',
       '../src/**/*.js',

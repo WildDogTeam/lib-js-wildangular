@@ -37,10 +37,10 @@ lib-js-wildangular并不适合同步层级很深的数据，在Angular中使用W
 <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
 
 <!-- Wilddog -->
-<script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.5.2/wilddog.js"></script>
 
 <!-- Wild-Angular -->
-<script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+<script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
 
 
 ```
@@ -72,8 +72,14 @@ lib-js-wildangular 的首要目标是管理和同步数据，这个目标是通�
 
 ```js
 
-var ref = new Wilddog("https://<APPID>.wilddogio.com");
-$scope.data = $wilddogObject(ref);
+var config = {
+    authDomain: "<appId>.wilddog.com",
+    syncURL: "https://<appId>.wilddogio.com"
+};
+wilddog.initializeApp(config);
+var sync = wilddog.sync();
+var auth = wilddog.auth();
+$scope.data = $wilddogObject(sync.ref());
 // 目前$scope.data 是空的
 console.log($scope.data);
 
@@ -88,7 +94,13 @@ console.log($scope.data);
 直接在controller里打印也是可以的，只需要使用`$loaded()`方法。但是，这个方法只会在数据加载完后被调用一次，因此我们并不推荐用来做debug。
 
 ```js
-var ref = new Wilddog("https://<APPID>.wilddogio.com");
+var config = {
+    authDomain: "<appId>.wilddog.com",
+    syncURL: "https://<appId>.wilddogio.com"
+};
+wilddog.initializeApp(config);
+var sync = wilddog.sync();
+var auth = wilddog.auth();
 $scope.data = $wilddogObject(ref);
 // then里面的代码会等待数据完全加载完再执行，因此服务端的数据会在这里打印出来
 $scope.data.$loaded()
@@ -105,7 +117,15 @@ $scope.data.$loaded()
 如果你直接使用SDK，而不使用lib-js-wildangular,数据加载完后通知Angular的compiler非常重要。
 
 ```js
-var ref = new Wilddog("https://<APPID>.wilddogio.com");
+var config = {
+    authDomain: "<appId>.wilddog.com",
+    syncURL: "https://<appId>.wilddogio.com"
+};
+wilddog.initializeApp(config);
+var sync = wilddog.sync();
+var auth = wilddog.auth();
+
+var ref = sync.ref();
 ref.on("value", function(snapshot) {
   // 数据不会立刻展现，因为我们只是在内存里做了修改，而没有通知Angular（没有触发Angular的脏检查）
   // $scope.data = snapshot.val();
@@ -144,10 +164,16 @@ var app = angular.module("sampleApp", ["wilddog"]);
 // 注入$wilddogObject
 app.controller("ProfileCtrl", ["$wilddogObject",
   function($wilddogObject) {
-    var ref = new Wilddog("https://<APPID>.wilddogio.com");
+    var config = {
+        authDomain: "<appId>.wilddog.com",
+        syncURL: "https://<appId>.wilddogio.com"
+    };
+    wilddog.initializeApp(config);
+    var sync = wilddog.sync();
+    var auth = wilddog.auth();
     // 把physicsmarie的profile 下载到本地。
     // 服务端的改变将实时同步到本地
-    $scope.profile = $wilddogObject(ref.child('profiles').child('phsyicsmarie'));
+    $scope.profile = $wilddogObject(sync.ref().child('profiles').child('phsyicsmarie'));
   }
 ]);
 
@@ -193,8 +219,8 @@ app.controller("ProfileCtrl", ["$wilddogObject",
 index.html
 ```html
 <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
-<script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
-<script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.5.2/wilddog.js"></script>
+<script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
 <script src="app.js"></script>
 
 
@@ -226,8 +252,15 @@ var app = angular.module("sampleApp", ["wilddog"]);
 app.factory("Profile", ["$wilddogObject",
   function($wilddogObject) {
     return function(username) {
-      var ref = new Wilddog("https://<APPID>.wilddogio.com/");
-      var profileRef = ref.child(username);
+      var config = {
+          authDomain: "<appId>.wilddog.com",
+          syncURL: "https://<appId>.wilddogio.com"
+      };
+      wilddog.initializeApp(config);
+      var sync = wilddog.sync();
+      var auth = wilddog.auth();
+
+      var profileRef = sync.ref().child(username);
       // 返回一个同步的对象
       return $wilddogObject(profileRef);
     }
@@ -265,8 +298,8 @@ app.controller("ProfileCtrl", ["$scope", "Profile",
 index.html
 ```html
 <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
-<script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
-<script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.5.2/wilddog.js"></script>
+<script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
 <script src="app.js"></script>
 
 
@@ -297,8 +330,14 @@ var app = angular.module("sampleApp", ["wilddog"]);
 app.factory("Profile", ["$wilddogObject",
   function($wilddogObject) {
     return function(username) {
-      var ref = new Wilddog("https://<APPID>.wilddogio.com/");
-      var profileRef = ref.child(username);
+      var config = {
+          authDomain: "<appId>.wilddog.com",
+          syncURL: "https://<appId>.wilddogio.com"
+      };
+      wilddog.initializeApp(config);
+      var sync = wilddog.sync();
+      var auth = wilddog.auth();
+      var profileRef = sync.ref().child(username);
       // 返回一个同步的对象
       return $wilddogObject(profileRef);
     }
@@ -330,23 +369,30 @@ app.controller("ProfileCtrl", ["$scope", "Profile",
 如果你尝试将`foo/`同步到`wilddogObject`,一个特殊的键 `$value`将被创建，用来储存基本数据类型。这个键只有在当前节点没有子节点的情况下才存在。如果一个路径不存在，`$value`将被设置为null。
 
 ```js
-var ref = new Wilddog("https://<APPID>.wilddogio.com/foo");
-  var obj = new $wilddogObject(ref);
-  obj.$loaded().then(function() {
-    console.log(obj.$value); // "bar"
-  });
-  // change the value at path foo/ to "baz"
-  obj.$value = "baz";
-  obj.$save();
-  // delete the value and see what is returned
-  obj.$remove().then(function() {
+var config = {
+    authDomain: "<appId>.wilddog.com",
+    syncURL: "https://<appId>.wilddogio.com"
+};
+wilddog.initializeApp(config);
+var sync = wilddog.sync();
+var auth = wilddog.auth();
+
+var obj = new $wilddogObject(sync.ref());
+obj.$loaded().then(function() {
+  console.log(obj.$value); // "bar"
+});
+// change the value at path foo/ to "baz"
+obj.$value = "baz";
+obj.$save();
+// delete the value and see what is returned
+obj.$remove().then(function() {
   console.log(obj.$value); // null!
 });
 
 ```
 
 查看 `$wilddogObject`的API来了解更多细节。然而并不是所有的数据都可以完美的同步到 `$wildObject`中。如果你需要同步一个列表，这时你需要使用`$wilddogArray`,下节讨论。
- 
+
 
 ## 同步数组
 
@@ -362,10 +408,16 @@ var app = angular.module("sampleApp", ["wilddog"]);
 // 在 controller 中注入 $wilddogArray 服务
 app.controller("ProfileCtrl", ["$scope", "$wilddogArray",
   function($scope, $wilddogArray) {
-    var messagesRef = new Wilddog("https://<YOUR-WILDDOG-APP>.wilddogio.com/messages");
+    var config = {
+        authDomain: "<appId>.wilddog.com",
+        syncURL: "https://<appId>.wilddogio.com"
+    };
+    wilddog.initializeApp(config);
+    var sync = wilddog.sync();
+    var auth = wilddog.auth();
     // 从一个 Wilddog 引用下载数据（伪只读）到本地数组
     // 所有服务端的变化将会实时绑定
-    $scope.messages = $wilddogArray(messagesRef);
+    $scope.messages = $wilddogArray(sync.ref("messages"));
     // 创建一个查询服务端最新的25条数据的排序规则
     var query = messagesRef.orderByChild("timestamp").limitToLast(25);
     // $wilddogArray服务能够很好地处理数据库查询
@@ -462,8 +514,14 @@ var app = angular.module("sampleApp", ["wilddog"]);
 // 注入 $wilddogAuth 到 controller
 app.controller("SampleCtrl", ["$scope", "$wilddogAuth",
   function($scope, $wilddogAuth) {
-    var ref = new Wilddog("https://<YOUR-WILDDOG-APP>.wilddogio.com");
-    var auth = $wilddogAuth(ref);
+    var config = {
+        authDomain: "<appId>.wilddog.com",
+        syncURL: "https://<appId>.wilddogio.com"
+    };
+    wilddog.initializeApp(config);
+    var sync = wilddog.sync();
+    var auth = wilddog.auth();
+    var wilddogAuth = $wilddogAuth(auth);
   }
 ]);
 ```
@@ -488,7 +546,7 @@ HTML :
 ```html
 <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
 <script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
-<script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+<script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
 
 <div ng-app="sampleApp" ng-controller="SampleCtrl">
   <div ng-show="authData">
@@ -502,14 +560,20 @@ HTML :
 </div>
 ```
 
-JavaScript : 
+JavaScript :
 ```js
 var app = angular.module("sampleApp", ["wilddog"]);
 
 app.factory("Auth", ["$wilddogAuth",
   function($wilddogAuth) {
-    var ref = new Wilddog("https://appName.wilddogio.com");
-    return $wilddogAuth(ref);
+    var config = {
+        authDomain: "<appId>.wilddog.com",
+        syncURL: "https://<appId>.wilddogio.com"
+    };
+    wilddog.initializeApp(config);
+    var sync = wilddog.sync();
+    var auth = wilddog.auth();
+    return $wilddogAuth(auth);
   }
 ]);
 

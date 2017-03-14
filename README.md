@@ -26,7 +26,7 @@ wild-angular 是对Wilddog客户端的补充，提供三个angular service
 <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
 
 <!-- Wilddog -->
-<script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.5.2/wilddog.js"></script>
 
 <!-- Wild-Angular -->
 <script src="https://cdn.wilddog.com/libs/wild-angular/0.0.2/wild-angular.min.js"></script>
@@ -54,11 +54,17 @@ var app = angular.module("sampleApp",["wilddog"]);
 
 ```
 app.controller("SampleCtrl",function($scope,$wilddogObject){
-  var ref = new Wilddog("https://<appId>.wilddogio.com")
+  var config = {
+      authDomain: "<appId>.wilddog.com",
+      syncURL: "https://<appId>.wilddogio.com/"
+  };
+  wilddog.initializeApp(config);
+  var auth = wilddog.auth();
+  var sync = wilddog.sync();
 
   //将数据下载到一个本地对象
-  $scope.data = $wilddogObject(ref);
-    
+  $scope.data = $wilddogObject(sync.ref());
+
   //在这里打印数据会得到空值
 
 });
@@ -80,9 +86,16 @@ app.js
 ``` js
 var app = angular.module("sampleApp",['wilddog']);
 app.controller("SampleCtrl",function($scope,$wilddogObject){
-  var ref=new Wilddog("https://<appId>.wilddogio.com/data");
+  var config = {
+      authDomain: "<appId>.wilddog.com",
+      syncURL: "https://<appId>.wilddogio.com/"
+  };
+  wilddog.initializeApp(config);
+  var auth = wilddog.auth();
+  var sync = wilddog.sync();
+
   //将云端数据与本地变量同步
-  var syncObject = $wilddogObject(ref);
+  var syncObject = $wilddogObject(sync.ref('data'));
 
   //将Wilddog绑定到$scope.data，当本地model发生变化，Wilddog数据库也同步变化。
   syncObject.$bindTo($scope,"data");
@@ -96,8 +109,8 @@ index.html
 <html ng-app="sampleApp">
   <head>
     <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
-    <script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
-    <script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+    <script src="https://cdn.wilddog.com/sdk/js/2.5.2/wilddog.js"></script>
+    <script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
     <script src="app.js"></script>
   </head>
   <body ng-controller="SampleCtrl">
@@ -122,9 +135,16 @@ app.js
 
 var app = angular.module("sampleApp", ["wilddog"]);
 app.controller("SampleCtrl", function($scope, $wilddogArray) {
-  var ref = new Wilddog("https://<appId>.wilddogio.com/messages");
+  var config = {
+      authDomain: "<appId>.wilddog.com",
+      syncURL: "https://<appId>.wilddogio.com"
+  };
+  wilddog.initializeApp(config);
+  var auth = wilddog.auth();
+  var sync = wilddog.sync();
+
   // 创建一个同步数组
-  $scope.messages = $wilddogArray(ref);
+  $scope.messages = $wilddogArray(sync.ref('messages'));
 });
 
 ```
@@ -135,8 +155,8 @@ index.html
 <html ng-app="sampleApp">
   <head>
     <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
-    <script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
-    <script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+    <script src="https://cdn.wilddog.com/sdk/js/2.5.2/wilddog.js"></script>
+    <script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
     <script src="app.js"></script>
   </head>
   <body ng-controller="SampleCtrl">
@@ -160,9 +180,13 @@ app.js
 
 var app = angular.module("sampleApp", ["wilddog"]);
 app.controller("SampleCtrl", function($scope, $wilddogArray) {
-  var ref = new Wilddog("https://<appId>.wilddogio.com/messages");
+  var config = {
+      syncURL: "https://<appId>.wilddogio.com"
+  };
+  wilddog.initializeApp(config);
+  var sync = wilddog.sync();
   // 创建一个同步数组
-  $scope.messages = $wilddogArray(ref);
+  $scope.messages = $wilddogArray(sync.ref('messages'));
   // 把新数据添加到列表中
   // 这条数据会自动同步到wilddog数据库
   $scope.addMessage = function() {
@@ -181,7 +205,7 @@ index.html
   <head>
     <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <script src="https://cdn.wilddog.com/sdk/js/current/wilddog.js"></script>
-    <script src="https://cdn.wilddog.com/libs/wild-angular/0.0.1/wild-angular.min.js"></script>
+    <script src="https://cdn.wilddog.com/libs/wild-angular/1.0.0/wild-angular.min.js"></script>
   </head>
   <body ng-controller="SampleCtrl">
     <ul>
@@ -211,8 +235,11 @@ wild-angular提供了一个service `$wilddogAuth`,封装了Wilddog提供的登�
 
 ```
 app.controller("SampleCtrl", function($scope, $wilddogAuth) {
-  var ref = new Wilddog("https://<appId>.wilddogio.com");
-  var auth = $wilddogAuth(ref);
+  var config = {
+      authDomain: "<appId>.wilddog.com",
+  };
+  wilddog.initializeApp(config);
+  var auth = $wilddogAuth(wilddog.auth());
   // 通过weixin登录
   auth.$authWithOAuthPopup("weixin").then(function(authData) {
     console.log("uid : ", authData.uid);
@@ -244,5 +271,3 @@ $ npm install
 $ grunt install             
 $ grunt watch              
 ```
-
-
